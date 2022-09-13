@@ -42,7 +42,6 @@ class BookingManager
             $stmt->bindParam(':client_email', $booking->getClientEmail());
             $stmt->bindParam(':checkin', $booking->getCheckin());
             $stmt->bindParam(':checkout', $booking->getCheckout());
-
             $stmt->execute();
         }
     }
@@ -54,6 +53,8 @@ class BookingManager
             $stmt = $this->_db->prapare($sql);
             $stmt->bindParam(':booking_id', $booking->getBooking_id());
             $stmt->execute();
+            $count = $stmt->rowCount();
+            return $count;
         }
     }
 }
