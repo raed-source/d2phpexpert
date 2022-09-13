@@ -9,6 +9,10 @@ $stmt->execute();
 while ($row = $stmt->fetch()) {
     print_r($row);
 }
+
+// list($y,$m,$d)=explode('-$date);
+// if(checkdate($m,$d,$y)){...}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
