@@ -1,32 +1,14 @@
-<?php
-$dbh = new PDO('mysql:host=localhost;dbname=booking_db', 'root', '');
-$stmt = $dbh->prepare('SELECT * FROM booking');
-// $var=var;
-// $stmt=$dbh->prepare('SELECT VAR FROM dbname
-// where var=:var');
-// $stmt->bindParam('var':$var); ensuite l'execution
-$stmt->execute();
-while ($row = $stmt->fetch()) {
-    print_r($row);
-}
-
-// list($y,$m,$d)=explode('-$date);
-// if(checkdate($m,$d,$y)){...}
-
-?>
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css">
     <title>Document</title>
-</head>
-
-<body>
-<form action="bookingManager.php" method="POST">
+  </head>
+  <body>
+    <form action="" method="POST">
       <h1>Reservez une chambre dans un de nous hotels</h1>
       <select name="hotels" id="">
         <option value="hotel1">hotel1</option>
@@ -55,6 +37,16 @@ while ($row = $stmt->fetch()) {
       <label for="confirm">confirm</label>
       <input type="submit" name="confirm" value="confirm">
     </form>
-</body>
-
+    <div class="affich">
+        <form action="" method="post">
+            <p>Consultez votre reservation</p>
+            <p>
+                <label for="consulter">saisissez votre mail</label>
+                <input type="email" name="email">
+                <input type="submit" name="submit" value="consultez">
+            </p>
+        </form>
+   
+    </div>
+  </body>
 </html>
