@@ -26,35 +26,7 @@ while ($row = $stmt->fetch()) {
 </head>
 
 <body>
-<form action="bookingManager.php" method="POST">
-      <h1>Reservez une chambre dans un de nous hotels</h1>
-      <select name="hotels" id="">
-        <option value="hotel1">hotel1</option>
-        <option value="hotel2">hotel1</option>
-        <option value="hotel3">hotel1</option>
-        <option value="hotel4">hotel1</option>
-        <option value="hotel5">hotel1</option>
-        <option value="hotel6">hotel1</option>
-        <option value="hotel7">hotel1</option>
-        <option value="hotel8">hotel1</option>
-        <option value="hotel9">hotel1</option>
-      </select>
-      <select name="chambres" id="">
-        <option value="chambre">1 chambre</option>
-        <option value="chambre">2 chambre</option>
-        <option value="chambre">3 chambre</option>
-      </select>
-      <p>
-        <label for="client_name">client name</label>
-        <input type="text" name="client_name" />
-      </p>
-      <p>
-        <label for="client_email">client email</label>
-        <input type="email" name="client_email" />
-      </p>
-      <label for="confirm">confirm</label>
-      <input type="submit" name="confirm" value="confirm">
-    </form>
+    
 </body>
 
 </html>

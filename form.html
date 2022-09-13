@@ -8,7 +8,7 @@
     <title>Document</title>
   </head>
   <body>
-    <form action="" method="POST">
+    <form action="bookingManager.php" method="POST">
       <h1>Reservez une chambre dans un de nous hotels</h1>
       <select name="hotels" id="">
         <option value="hotel1">hotel1</option>
@@ -35,15 +35,15 @@
         <input type="email" name="client_email" />
       </p>
       <label for="confirm">confirm</label>
-      <input type="submit" name="confirm" value="confirm">
+      <input type="submit" name="submitBooking" value="confirm">
     </form>
     <div class="affich">
-        <form action="" method="post">
+        <form action="bookingManager.php" method="post">
             <p>Consultez votre reservation</p>
             <p>
                 <label for="consulter">saisissez votre mail</label>
                 <input type="email" name="email">
-                <input type="submit" name="submit" value="consultez">
+                <input type="submit" name="submitConsulte" value="consultez">
             </p>
         </form>
    

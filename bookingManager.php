@@ -1,4 +1,12 @@
 <?php
+
+$hotel_name = $_POST['hotel_name'];
+$client_name = $_POST['client_name'];
+$client_email = $_POST['client_email'];
+$submitBooking = $_POST['submitBooking'];
+$submitConsulte = $_POST['submitConsulte'];
+$chambres = $_POST['chambres'];
+$hotels = $_POST['hotels'];
 class BookingManager
 {
     private $_db;
@@ -59,9 +67,10 @@ class BookingManager
     }
 }
 
-$booking_data = array('booking_id' => 1, 'hotel_name' => 'ibiz', 'client_email' => 'raed.a@hotmail.com', 'checkin' => 01 - 02 - 2022, 'checkout' => 02 - 02 - 2022);
+$booking_data = array('hotel_name' => $hotel_name, 'client_email' => $client_name, 'checkin' => $checkin, 'checkout' => $checkout);
 $booking = new Booking($booking_data);
-$db = new PDO('mysql:host=localhost;dbname=bookingdb', 'root', '');
+$dbh = new PDO('mysql:host=localhost;dbname=booking_db', 'root', '');
+
 // la foncion addManager prend en param l'objet $booking et les details seront saisies par l'utilisateur;
 $bookingManager = new BookingManager($db);
 $bookingManager->addBooking($booking);

@@ -3,8 +3,17 @@
 }
 body{
     background-color: antiquewhite;
-    display:flex;
+    text-align: center; */
+    /* display:flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+form{
+    border: 1px solid royalblue;
+    /* display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* width: fit-content; */ */
 }
