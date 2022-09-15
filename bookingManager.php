@@ -1,12 +1,7 @@
 <?php
+// require('booking.php');
+echo ('Bienvenue<br/>');
 
-$hotel_name = $_POST['hotel_name'];
-$client_name = $_POST['client_name'];
-$client_email = $_POST['client_email'];
-$submitBooking = $_POST['submitBooking'];
-$submitConsulte = $_POST['submitConsulte'];
-$chambres = $_POST['chambres'];
-$hotels = $_POST['hotels'];
 class BookingManager
 {
     private $_db;
@@ -21,10 +16,16 @@ class BookingManager
     // -------------CREATION-----------------------
     public function addBooking(Booking $booking)
     {
-        $sql = 'INSERT INTO booking (hotel_name, client_email,checkin,checkout)VALUES(:hotel_name, :client_email,:checkin,;checkout) ';
-        $stmt = $this->_db->prepar($sql);
-        $stmt->bindParam(':hotel_name', htmlspecialchars($booking->getBooking));
-        $stmt->BindParam(':checkin', $booking->getCheckin());
+        $sql = 'INSERT INTO booking (hotel_name, client_name, rooms_number, client_mail,checkin,checkout)VALUES(:hotel_name, :client_name,:rooms_number, :client_mail,:checkin,:checkout) ';
+        $stmt = $this->_db->prepare($sql);
+        $stmt->bindValue(':hotel_name', htmlspecialchars($booking->getHotelName()));
+        $stmt->bindValue(':client_name', htmlspecialchars($booking->getClientName()));
+        $stmt->bindValue(':rooms_number', htmlspecialchars($booking->getRoomsNumber()));
+        $stmt->bindValue(':client_mail', htmlspecialchars($booking->getClientMail()));
+        $stmt->bindValue(':checkin', $booking->getCheckin());
+        $stmt->bindValue(':checkout', $booking->getCheckout());
+
+
         $stmt->execute();
     }
     //--------------------RECUPERER------------------------
@@ -47,7 +48,7 @@ class BookingManager
             $sql = 'UPDATE booking SET hotel_name=:hotel_name, client_email=:client_email, checkin=:checkin, checkout=:checkout';
             $stmt = $this->_db->prepare($sql);
             $stmt->bindParam(':hotel_name', $booking->getHotelName());
-            $stmt->bindParam(':client_email', $booking->getClientEmail());
+            $stmt->bindParam(':client_email', $booking->getClientMail());
             $stmt->bindParam(':checkin', $booking->getCheckin());
             $stmt->bindParam(':checkout', $booking->getCheckout());
             $stmt->execute();
@@ -66,11 +67,3 @@ class BookingManager
         }
     }
 }
-
-$booking_data = array('hotel_name' => $hotel_name, 'client_email' => $client_name, 'checkin' => $checkin, 'checkout' => $checkout);
-$booking = new Booking($booking_data);
-$dbh = new PDO('mysql:host=localhost;dbname=booking_db', 'root', '');
-
-// la foncion addManager prend en param l'objet $booking et les details seront saisies par l'utilisateur;
-$bookingManager = new BookingManager($db);
-$bookingManager->addBooking($booking);
