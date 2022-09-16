@@ -26,10 +26,9 @@ if (isset($_POST['submitBooking'])) {
         $checkout = $_POST['checkout'];
     }
 }
-//  $booking_data = array('hotel_name'=>$hotel_name, $rooms_number, $client_name, $client_mail, $checkin, $checkout);
 
-// print_r($booking_data);
-
+// l'insertion se fait correctement lorsque je met des valeurs , mais quand je met des variabels impossible d'iserer, en plus pas
+// de message d'erreur dans index.php
 // $booking_data = array('booking_id' =>0 , 'hotel_name' => 'hotel1', 'rooms_number' => 1, 'client_name' => 'raed', 'client_mail' => 'raed.abbas@hotmail.fr', 'checkin' => '2022-09-01', 'checkout' => '2022-09-02');
 
 // --------------------CREER UN ARRAY NECESSAIR POUR L'OBJET BOOKING---------------------------------
