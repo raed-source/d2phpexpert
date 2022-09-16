@@ -30,21 +30,24 @@ if (isset($_POST['submitBooking'])) {
 
 // print_r($booking_data);
 
-$booking_data = array('hotel_name' => $hotel_name, 'rooms_number' => $rooms_number, 'client_name' => $client_name, 'client_mail' => $client_mail, 'checkin' => $checkin, 'checkout' => $checkout);
-// -------------------CONNEXTION A LA BASE DE DONNEES-------------------
+// $booking_data = array('booking_id' =>0 , 'hotel_name' => 'hotel1', 'rooms_number' => 1, 'client_name' => 'raed', 'client_mail' => 'raed.abbas@hotmail.fr', 'checkin' => '2022-09-01', 'checkout' => '2022-09-02');
 
-
-
+// --------------------CREER UN ARRAY NECESSAIR POUR L'OBJET BOOKING---------------------------------
+$booking_data = array('booking_id' => 0, 'hotel_name' => $hotel_name, 'rooms_number' => $rooms_number, 'client_name' => $client_name, 'client_mail' => $client_mail, 'checkin' => $checkin, 'checkout' => $checkout);
+// -------------------CREATION D'OBJET BOOKING-------------------
 $booking = new Booking($booking_data);
-var_dump($booking);
-$dbh = new PDO('mysql:host=localhost;dbname=booking_db', 'root', '');
-if (isset($dbh)) echo 'connecté à la base booking_db</br>';
-$bookingManager = new BookingManager($dbh);
-var_dump($bookingManager);
+if (isset($booking)) {
+    echo $booking->getHotelName() . '<br>';
+    // var_dump($booking);
+    $dbh = new PDO('mysql:host=localhost;dbname=booking_db', 'root', '');
+    // if (isset($dbh)) echo 'connecté à la base booking_db</br>';
+    // ------------CREATION D'OBJET BOOKINGMANAGER
+    $bookingManager = new BookingManager($dbh);
+    print_r($bookingManager);
+    $bookingManager->addBooking($booking);
+}
 
-if(!$bookingManager->addBooking($booking)){
-    echo 'not inseré';
-};
+
 
 ?>
 <!DOCTYPE html>

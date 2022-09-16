@@ -1,5 +1,4 @@
 <?php
-// require('booking.php');
 echo ('Bienvenue<br/>');
 
 class BookingManager
@@ -16,30 +15,44 @@ class BookingManager
     // -------------CREATION-----------------------
     public function addBooking(Booking $booking)
     {
-        $sql = 'INSERT INTO booking (hotel_name, client_name, rooms_number, client_mail,checkin,checkout)VALUES(:hotel_name, :client_name,:rooms_number, :client_mail,:checkin,:checkout) ';
+       
+        $id = $booking->getBooking_id();
+        echo $id.'<br>';
+        $client_name = htmlspecialchars($booking->getClientName());
+        echo $client_name.'<br>';
+        $hotel_name = htmlspecialchars($booking->getHotelName());
+        $rooms_number = htmlspecialchars($booking->getRoomsNumber());
+        $client_mail = htmlspecialchars($booking->getClientMail());
+        $checkin = $booking->getCheckin();
+        $checkout = $booking->getCheckin();
+        $sql = 'INSERT INTO booking (booking_id, hotel_name, client_name, rooms_number, client_mail,checkin,checkout)VALUES(:booking_id,:hotel_name, :client_name,:rooms_number, :client_mail,:checkin,:checkout) ';
         $stmt = $this->_db->prepare($sql);
-        $stmt->bindValue(':hotel_name', htmlspecialchars($booking->getHotelName()));
-        $stmt->bindValue(':client_name', htmlspecialchars($booking->getClientName()));
-        $stmt->bindValue(':rooms_number', htmlspecialchars($booking->getRoomsNumber()));
-        $stmt->bindValue(':client_mail', htmlspecialchars($booking->getClientMail()));
-        $stmt->bindValue(':checkin', $booking->getCheckin());
-        $stmt->bindValue(':checkout', $booking->getCheckout());
-
-
+        $stmt->bindValue('booking_id', $id,PDO::PARAM_INT);
+        $stmt->bindValue('hotel_name', $hotel_name,PDO::PARAM_STR);
+        $stmt->bindValue('client_name', $client_name,PDO::PARAM_STR);
+        $stmt->bindValue('rooms_number', $rooms_number,PDO::PARAM_STR);
+        $stmt->bindValue('client_mail', $client_mail,PDO::PARAM_STR);
+        $stmt->bindValue('checkin', $checkin,PDO::PARAM_STR);
+        $stmt->bindValue('checkout', $checkout,PDO::PARAM_STR);
         $stmt->execute();
     }
     //--------------------RECUPERER------------------------
-    public function getBooking($booking)
+    public function getBooking($booking_id)
     {
-        if (empty($booking)) {
+        if (empty($booking_id)) {
             $sql = 'SELECT * FROM booking';
             $stmt = $this->_db->prepare($sql);
-        } else {
+        } elseif (is_numeric($booking_id)) {
             $sql = 'SELECT * FROM booking WHERE booking_id=>:booking_id';
             $stmt = $this->_db->prepare($sql);
-            $stmt->bindParam(':booking_id', $booking->getBooking_id());
-            $stmt->execute();
+            $stmt->bindValue(':booking_id', $booking_id);
         }
+        $stmt->execute();
+        $res[] = array();
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $res[] = $row;
+        }
+        return $res;
     }
     //--------------------MODIFIER-------------------------
     public function updateBooking(Booking $booking)
