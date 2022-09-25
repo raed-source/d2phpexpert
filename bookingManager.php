@@ -15,25 +15,22 @@ class BookingManager
     // -------------CREATION-----------------------
     public function addBooking(Booking $booking)
     {
-       
         $id = $booking->getBooking_id();
-        echo $id.'<br>';
         $client_name = htmlspecialchars($booking->getClientName());
-        echo $client_name.'<br>';
         $hotel_name = htmlspecialchars($booking->getHotelName());
         $rooms_number = htmlspecialchars($booking->getRoomsNumber());
         $client_mail = htmlspecialchars($booking->getClientMail());
         $checkin = $booking->getCheckin();
         $checkout = $booking->getCheckin();
-        $sql = 'INSERT INTO booking (booking_id, hotel_name, client_name, rooms_number, client_mail,checkin,checkout)VALUES(:booking_id,:hotel_name, :client_name,:rooms_number, :client_mail,:checkin,:checkout) ';
+
+        $sql = 'INSERT INTO booking ( client_name, client_mail,hotel_name ,rooms_number,checkin,checkout)VALUES(:client_name,:client_mail,:hotel_name,:rooms_number,:checkin,:checkout) ';
         $stmt = $this->_db->prepare($sql);
-        $stmt->bindValue('booking_id', $id,PDO::PARAM_INT);
-        $stmt->bindValue('hotel_name', $hotel_name,PDO::PARAM_STR);
-        $stmt->bindValue('client_name', $client_name,PDO::PARAM_STR);
-        $stmt->bindValue('rooms_number', $rooms_number,PDO::PARAM_STR);
-        $stmt->bindValue('client_mail', $client_mail,PDO::PARAM_STR);
-        $stmt->bindValue('checkin', $checkin,PDO::PARAM_STR);
-        $stmt->bindValue('checkout', $checkout,PDO::PARAM_STR);
+        $stmt->bindParam('client_name', $client_name);
+        $stmt->bindParam('client_mail', $client_mail);
+        $stmt->bindParam('hotel_name', $hotel_name);
+        $stmt->bindParam('rooms_number', $rooms_number);
+        $stmt->bindParam('checkin', $checkin);
+        $stmt->bindParam('checkout', $checkout);
         $stmt->execute();
     }
     //--------------------RECUPERER------------------------
@@ -45,7 +42,7 @@ class BookingManager
         } elseif (is_numeric($booking_id)) {
             $sql = 'SELECT * FROM booking WHERE booking_id=>:booking_id';
             $stmt = $this->_db->prepare($sql);
-            $stmt->bindValue(':booking_id', $booking_id);
+            $stmt->bindParam(':booking_id', $booking_id);
         }
         $stmt->execute();
         $res[] = array();
@@ -58,8 +55,9 @@ class BookingManager
     public function updateBooking(Booking $booking)
     {
         if (!empty($booking)) {
-            $sql = 'UPDATE booking SET hotel_name=:hotel_name, client_email=:client_email, checkin=:checkin, checkout=:checkout';
+            $sql = 'UPDATE booking SET hotel_name=:hotel_name, client_email=:client_email, checkin=:checkin, checkout=:checkout where booking_id=:booking_id';
             $stmt = $this->_db->prepare($sql);
+            $stmt->bindParam(':booking_id', $booking->getBooking_id());
             $stmt->bindParam(':hotel_name', $booking->getHotelName());
             $stmt->bindParam(':client_email', $booking->getClientMail());
             $stmt->bindParam(':checkin', $booking->getCheckin());

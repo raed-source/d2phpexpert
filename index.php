@@ -6,7 +6,7 @@ require('booking.php');
 
 
 if (isset($_POST['submitBooking'])) {
-    echo 'submit</br>';
+    // echo 'submit confirm</br>';
     if (
         !empty($_POST['hotels'])
         and !empty($_POST['rooms'])
@@ -17,7 +17,7 @@ if (isset($_POST['submitBooking'])) {
         // and !empty($_POST['submitConsulte'])
         // and !empty($_POST['hotels'])
     ) {
-        echo 'not empty</br>';
+        // echo 'not empty</br>';
         $hotel_name = $_POST['hotels'];
         $rooms_number = $_POST['rooms'];
         $client_name = $_POST['client_name'];
@@ -29,20 +29,16 @@ if (isset($_POST['submitBooking'])) {
 
 // l'insertion se fait correctement lorsque je met des valeurs , mais quand je met des variabels impossible d'iserer, en plus pas
 // de message d'erreur dans index.php
-// $booking_data = array('booking_id' =>0 , 'hotel_name' => 'hotel1', 'rooms_number' => 1, 'client_name' => 'raed', 'client_mail' => 'raed.abbas@hotmail.fr', 'checkin' => '2022-09-01', 'checkout' => '2022-09-02');
+$booking_data = array('hotel_name' => 'hotel1', 'rooms_number' => 1, 'client_name' => 'raed', 'client_mail' => 'raed.abbas@hotmail.fr', 'checkin' => '2022-09-01', 'checkout' => '2022-09-02');
 
 // --------------------CREER UN ARRAY NECESSAIR POUR L'OBJET BOOKING---------------------------------
-$booking_data = array('booking_id' => 0, 'hotel_name' => $hotel_name, 'rooms_number' => $rooms_number, 'client_name' => $client_name, 'client_mail' => $client_mail, 'checkin' => $checkin, 'checkout' => $checkout);
+// $booking_data = array('client_name' => $client_name, 'client_mail' => $client_mail, 'hotel_name' => $hotel_name, 'rooms_number' => $rooms_number,   'checkin' => $checkin, 'checkout' => $checkout);
 // -------------------CREATION D'OBJET BOOKING-------------------
 $booking = new Booking($booking_data);
 if (isset($booking)) {
-    echo $booking->getHotelName() . '<br>';
-    // var_dump($booking);
     $dbh = new PDO('mysql:host=localhost;dbname=booking_db', 'root', '');
-    // if (isset($dbh)) echo 'connecté à la base booking_db</br>';
     // ------------CREATION D'OBJET BOOKINGMANAGER
     $bookingManager = new BookingManager($dbh);
-    print_r($bookingManager);
     $bookingManager->addBooking($booking);
 }
 
