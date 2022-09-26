@@ -11,7 +11,7 @@ class Booking
 
     public function __construct(array $data)
     {
-        $this->setBooking_id($data['booking_id']);
+        // $this->setBooking_id($data['booking_id']);
         $this->setHotelName($data['hotel_name']);
         $this->setRoomsNumber($data['rooms_number']);
         $this->setClientName($data['client_name']);
@@ -24,11 +24,7 @@ class Booking
         if (is_int($booking_id))
             $this->_booking_id = $booking_id;
     }
-    public function setHotelName($hotel_name)
-    {
-        if (is_string($hotel_name))
-            $this->_hotel_name = $hotel_name;
-    }
+  
     public function setRoomsNumber($rooms_number)
     {
         $this->_rooms_number = $rooms_number;

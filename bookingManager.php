@@ -23,15 +23,22 @@ class BookingManager
         $checkin = $booking->getCheckin();
         $checkout = $booking->getCheckin();
 
-        $sql = 'INSERT INTO booking ( client_name, client_mail,hotel_name ,rooms_number,checkin,checkout)VALUES(:client_name,:client_mail,:hotel_name,:rooms_number,:checkin,:checkout) ';
+        $sql = 'INSERT INTO booking (client_name, client_mail, hotel_name, rooms_number, checkin, checkout)
+                             VALUES (:client_name, :client_mail, :hotel_name, :rooms_number, :checkin, :checkout) ';
         $stmt = $this->_db->prepare($sql);
         $stmt->bindParam('client_name', $client_name);
+        var_dump($client_name);
         $stmt->bindParam('client_mail', $client_mail);
+        var_dump($client_mail);
         $stmt->bindParam('hotel_name', $hotel_name);
+        var_dump($hotel_name);
         $stmt->bindParam('rooms_number', $rooms_number);
         $stmt->bindParam('checkin', $checkin);
         $stmt->bindParam('checkout', $checkout);
+        var_dump($checkout);
         $stmt->execute();
+        // var_dump($stmt->debugDumpParams());
+        $stmt=null;
     }
     //--------------------RECUPERER------------------------
     public function getBooking($booking_id)
@@ -77,4 +84,27 @@ class BookingManager
             return $count;
         }
     }
+    public function addClient(Booking $booking)
+    {
+        $id = $booking->getBooking_id();
+        $client_name = htmlspecialchars($booking->getClientName());
+        $hotel_name = htmlspecialchars($booking->getHotelName());
+        $rooms_number = htmlspecialchars($booking->getRoomsNumber());
+        $client_mail = htmlspecialchars($booking->getClientMail());
+        $checkin = $booking->getCheckin();
+        $checkout = $booking->getCheckin();
+
+        $sql = 'INSERT INTO client (client_name, client_mail)
+                             VALUES (:client_name, :client_mail) ';
+        $stmt = $this->_db->prepare($sql);
+        $stmt->bindParam('client_name', $client_name);
+        var_dump($client_name);
+        $stmt->bindParam('client_mail', $client_mail);
+        var_dump($client_mail);
+        var_dump($checkout);
+        $stmt->execute();
+        var_dump($stmt->debugDumpParams());
+        $stmt=null;
+    }
+
 }

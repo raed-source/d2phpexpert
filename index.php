@@ -6,7 +6,6 @@ require('booking.php');
 
 
 if (isset($_POST['submitBooking'])) {
-    // echo 'submit confirm</br>';
     if (
         !empty($_POST['hotels'])
         and !empty($_POST['rooms'])
@@ -14,10 +13,7 @@ if (isset($_POST['submitBooking'])) {
         and !empty($_POST['client_mail'])
         and !empty($_POST['checkin'])
         and !empty($_POST['checkout'])
-        // and !empty($_POST['submitConsulte'])
-        // and !empty($_POST['hotels'])
     ) {
-        // echo 'not empty</br>';
         $hotel_name = $_POST['hotels'];
         $rooms_number = $_POST['rooms'];
         $client_name = $_POST['client_name'];
@@ -25,22 +21,22 @@ if (isset($_POST['submitBooking'])) {
         $checkin = $_POST['checkin'];
         $checkout = $_POST['checkout'];
     }
-}
+    // --------------------CREER UN ARRAY NECESSAIR POUR L'OBJET BOOKING---------------------------------
+    $booking_data = array('client_name' => $client_name, 'client_mail' => $client_mail, 'hotel_name' => $hotel_name, 'rooms_number' => $rooms_number,   'checkin' => $checkin, 'checkout' => $checkout);
 
-// l'insertion se fait correctement lorsque je met des valeurs , mais quand je met des variabels impossible d'iserer, en plus pas
-// de message d'erreur dans index.php
-$booking_data = array('hotel_name' => 'hotel1', 'rooms_number' => 1, 'client_name' => 'raed', 'client_mail' => 'raed.abbas@hotmail.fr', 'checkin' => '2022-09-01', 'checkout' => '2022-09-02');
+    // -------------------CREATION D'OBJET BOOKING-------------------
+    $booking = new Booking($booking_data);
 
-// --------------------CREER UN ARRAY NECESSAIR POUR L'OBJET BOOKING---------------------------------
-// $booking_data = array('client_name' => $client_name, 'client_mail' => $client_mail, 'hotel_name' => $hotel_name, 'rooms_number' => $rooms_number,   'checkin' => $checkin, 'checkout' => $checkout);
-// -------------------CREATION D'OBJET BOOKING-------------------
-$booking = new Booking($booking_data);
-if (isset($booking)) {
     $dbh = new PDO('mysql:host=localhost;dbname=booking_db', 'root', '');
     // ------------CREATION D'OBJET BOOKINGMANAGER
     $bookingManager = new BookingManager($dbh);
     $bookingManager->addBooking($booking);
+    $bookingManager->addClient($booking);
+    $dbh = null;
+    header("Location: merci.php");
+    exit;
 }
+
 
 
 
@@ -60,20 +56,22 @@ if (isset($booking)) {
     <form action="index.php" method="POST">
         <h1>Reservez une chambre dans un de nos hotels</h1>
         <select name="hotels" id="">
+            <option value="null"></option>
             <option value="hotel1">hotel1</option>
-            <option value="hotel2">hotel1</option>
-            <option value="hotel3">hotel1</option>
-            <option value="hotel4">hotel1</option>
-            <option value="hotel5">hotel1</option>
-            <option value="hotel6">hotel1</option>
-            <option value="hotel7">hotel1</option>
-            <option value="hotel8">hotel1</option>
-            <option value="hotel9">hotel1</option>
+            <option value="hotel2">hotel2</option>
+            <option value="hotel3">hotel3</option>
+            <option value="hotel4">hotel4</option>
+            <option value="hotel5">hotel5</option>
+            <option value="hotel6">hotel6</option>
+            <option value="hotel7">hotel7</option>
+            <option value="hotel8">hotel8</option>
+            <option value="hotel9">hotel9</option>
         </select>
         <select name="rooms" id="">
-            <option value="1 chambre">1 chambre</option>
-            <option value="2 chambre">2 chambre</option>
-            <option value="3 chambre">3 chambre</option>
+            <option value=""></option>
+            <option value="1">1 chambre</option>
+            <option value="2">2 chambre</option>
+            <option value="3">3 chambre</option>
         </select>
         <p>
             <label for="client_name">client name</label>
