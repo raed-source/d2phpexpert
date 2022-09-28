@@ -3,7 +3,7 @@ class Booking
 {
     private $_booking_id;
     private $_hotel_name;
-    private $_rooms_number;
+    private $_room_number;
     private $_client_name;
     private $_client_mail;
     private $_checkin;
@@ -13,7 +13,7 @@ class Booking
     {
         // $this->setBooking_id($data['booking_id']);
         $this->setHotelName($data['hotel_name']);
-        $this->setRoomsNumber($data['rooms_number']);
+        $this->setRoomNumber($data['room_number']);
         $this->setClientName($data['client_name']);
         $this->setClientMail($data['client_mail']);
         $this->setCheckin($data['checkin']);
@@ -24,10 +24,14 @@ class Booking
         if (is_int($booking_id))
             $this->_booking_id = $booking_id;
     }
-  
-    public function setRoomsNumber($rooms_number)
+    public function setHotelName($hotel_name)
     {
-        $this->_rooms_number = $rooms_number;
+        if (is_string($hotel_name))
+            $this->_hotel_name = $hotel_name;
+    }
+    public function setRoomNumber($room_number)
+    {
+        $this->_room_number = $room_number;
     }
     public function setClientName($client_name)
     {
@@ -67,9 +71,9 @@ class Booking
     {
         return $this->_hotel_name;
     }
-    public function getRoomsNumber()
+    public function getRoomNumber()
     {
-        return $this->_rooms_number;
+        return $this->_room_number;
     }
     public function getClientMail()
     {

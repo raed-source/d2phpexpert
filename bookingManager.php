@@ -18,38 +18,34 @@ class BookingManager
         $id = $booking->getBooking_id();
         $client_name = htmlspecialchars($booking->getClientName());
         $hotel_name = htmlspecialchars($booking->getHotelName());
-        $rooms_number = htmlspecialchars($booking->getRoomsNumber());
+        $room_number = htmlspecialchars($booking->getRoomNumber());
         $client_mail = htmlspecialchars($booking->getClientMail());
         $checkin = $booking->getCheckin();
         $checkout = $booking->getCheckin();
 
-        $sql = 'INSERT INTO booking (client_name, client_mail, hotel_name, rooms_number, checkin, checkout)
-                             VALUES (:client_name, :client_mail, :hotel_name, :rooms_number, :checkin, :checkout) ';
+        $sql = 'INSERT INTO booking_manager (client_name, client_mail, hotel_name, room_number, checkin, checkout)
+                             VALUES (:client_name, :client_mail, :hotel_name, :room_number, :checkin, :checkout) ';
         $stmt = $this->_db->prepare($sql);
         $stmt->bindParam('client_name', $client_name);
-        var_dump($client_name);
         $stmt->bindParam('client_mail', $client_mail);
-        var_dump($client_mail);
         $stmt->bindParam('hotel_name', $hotel_name);
-        var_dump($hotel_name);
-        $stmt->bindParam('rooms_number', $rooms_number);
+        $stmt->bindParam('room_number', $room_number);
         $stmt->bindParam('checkin', $checkin);
         $stmt->bindParam('checkout', $checkout);
-        var_dump($checkout);
         $stmt->execute();
         // var_dump($stmt->debugDumpParams());
-        $stmt=null;
+        $stmt = null;
     }
     //--------------------RECUPERER------------------------
-    public function getBooking($booking_id)
+    public function getBooking($id = '')
     {
-        if (empty($booking_id)) {
-            $sql = 'SELECT * FROM booking';
+        if (empty($id)) {
+            $sql = 'SELECT * FROM booking_manager';
             $stmt = $this->_db->prepare($sql);
-        } elseif (is_numeric($booking_id)) {
-            $sql = 'SELECT * FROM booking WHERE booking_id=>:booking_id';
+        } elseif (is_numeric($id)) {
+            $sql = 'SELECT * FROM booking_manager WHERE booking_id=:id';
             $stmt = $this->_db->prepare($sql);
-            $stmt->bindParam(':booking_id', $booking_id);
+            $stmt->bindParam(':id', $id);
         }
         $stmt->execute();
         $res[] = array();
@@ -62,7 +58,7 @@ class BookingManager
     public function updateBooking(Booking $booking)
     {
         if (!empty($booking)) {
-            $sql = 'UPDATE booking SET hotel_name=:hotel_name, client_email=:client_email, checkin=:checkin, checkout=:checkout where booking_id=:booking_id';
+            $sql = 'UPDATE booking_manager SET hotel_name=:hotel_name, client_email=:client_email, checkin=:checkin, checkout=:checkout where booking_id=:booking_id';
             $stmt = $this->_db->prepare($sql);
             $stmt->bindParam(':booking_id', $booking->getBooking_id());
             $stmt->bindParam(':hotel_name', $booking->getHotelName());
@@ -73,38 +69,33 @@ class BookingManager
         }
     }
     //----------------------SUPPRIMER-------------------------
-    public function deleteBooking(Booking $booking)
+    public function deleteBooking($id)
     {
-        if (!empty($booking)) {
-            $sql = 'DELETE FROM booking WHERE booking_id=:booking_id';
-            $stmt = $this->_db->prapare($sql);
-            $stmt->bindParam(':booking_id', $booking->getBooking_id());
-            $stmt->execute();
-            $count = $stmt->rowCount();
-            return $count;
-        }
+        // if (!empty($booking_id)) {
+        $sql = 'DELETE FROM booking_manager WHERE booking_id=:id';
+        $stmt = $this->_db->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $count = $stmt->rowCount();
+        return $count;
+        // }
     }
     public function addClient(Booking $booking)
     {
         $id = $booking->getBooking_id();
         $client_name = htmlspecialchars($booking->getClientName());
-        $hotel_name = htmlspecialchars($booking->getHotelName());
-        $rooms_number = htmlspecialchars($booking->getRoomsNumber());
+        // $hotel_name = htmlspecialchars($booking->getHotelName());
+        // $room_number = htmlspecialchars($booking->getRoomNumber());
         $client_mail = htmlspecialchars($booking->getClientMail());
-        $checkin = $booking->getCheckin();
-        $checkout = $booking->getCheckin();
-
+        // $checkin = $booking->getCheckin();
+        // $checkout = $booking->getCheckin();
         $sql = 'INSERT INTO client (client_name, client_mail)
                              VALUES (:client_name, :client_mail) ';
         $stmt = $this->_db->prepare($sql);
         $stmt->bindParam('client_name', $client_name);
-        var_dump($client_name);
         $stmt->bindParam('client_mail', $client_mail);
-        var_dump($client_mail);
-        var_dump($checkout);
         $stmt->execute();
-        var_dump($stmt->debugDumpParams());
-        $stmt=null;
+        // var_dump($stmt->debugDumpParams());
+        $stmt = null;
     }
-
 }

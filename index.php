@@ -7,31 +7,52 @@ require('booking.php');
 
 if (isset($_POST['submitBooking'])) {
     if (
-        !empty($_POST['hotels'])
-        and !empty($_POST['rooms'])
+        !empty($_POST['hotel'])
+        and !empty($_POST['room'])
         and !empty($_POST['client_name'])
         and !empty($_POST['client_mail'])
         and !empty($_POST['checkin'])
         and !empty($_POST['checkout'])
     ) {
-        $hotel_name = $_POST['hotels'];
-        $rooms_number = $_POST['rooms'];
+        $hotel_name = $_POST['hotel'];
+        $room_number = $_POST['room'];
         $client_name = $_POST['client_name'];
         $client_mail = $_POST['client_mail'];
         $checkin = $_POST['checkin'];
         $checkout = $_POST['checkout'];
     }
     // --------------------CREER UN ARRAY NECESSAIR POUR L'OBJET BOOKING---------------------------------
-    $booking_data = array('client_name' => $client_name, 'client_mail' => $client_mail, 'hotel_name' => $hotel_name, 'rooms_number' => $rooms_number,   'checkin' => $checkin, 'checkout' => $checkout);
+    $booking_data = array('client_name' => $client_name, 'client_mail' => $client_mail, 'hotel_name' => $hotel_name, 'room_number' => $room_number,   'checkin' => $checkin, 'checkout' => $checkout);
 
     // -------------------CREATION D'OBJET BOOKING-------------------
     $booking = new Booking($booking_data);
 
     $dbh = new PDO('mysql:host=localhost;dbname=booking_db', 'root', '');
+
+
     // ------------CREATION D'OBJET BOOKINGMANAGER
     $bookingManager = new BookingManager($dbh);
-    $bookingManager->addBooking($booking);
-    $bookingManager->addClient($booking);
+    // ------------VERIFICATION DE L'ETAT DE LA BASE--------
+    $sql = 'SELECT * FROM booking_manager';
+    $stmt = $dbh->prepare($sql);
+    $stmt->execute();
+    $res[] = array();
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $res[] = $row;
+    }
+    foreach ($res as $list) {
+        if (
+            $list['hotel_name'] == $booking->getHotelName()
+            and $list['room_number'] == $booking->getRoomNumber()
+            and $list['checkout'] >= $booking->getCheckin()
+        ) {
+            header("Location: error.php");
+            exit;
+        } else {
+            $bookingManager->addBooking($booking);
+            $bookingManager->addClient($booking);
+        }
+    }
     $dbh = null;
     header("Location: merci.php");
     exit;
@@ -54,8 +75,8 @@ if (isset($_POST['submitBooking'])) {
 
 <body>
     <form action="index.php" method="POST">
-        <h1>Reservez une chambre dans un de nos hotels</h1>
-        <select name="hotels" id="">
+        <h1>Reservez une chambre dans un de nos hotel</h1>
+        <select name="hotel" id="">
             <option value="null"></option>
             <option value="hotel1">hotel1</option>
             <option value="hotel2">hotel2</option>
@@ -63,15 +84,16 @@ if (isset($_POST['submitBooking'])) {
             <option value="hotel4">hotel4</option>
             <option value="hotel5">hotel5</option>
             <option value="hotel6">hotel6</option>
-            <option value="hotel7">hotel7</option>
-            <option value="hotel8">hotel8</option>
-            <option value="hotel9">hotel9</option>
+
         </select>
-        <select name="rooms" id="">
+        <select name="room" id="">
             <option value=""></option>
             <option value="1">1 chambre</option>
             <option value="2">2 chambre</option>
             <option value="3">3 chambre</option>
+            <option value="4">4 chambre</option>
+            <option value="5">5 chambre</option>
+            <option value="6">6 chambre</option>
         </select>
         <p>
             <label for="client_name">client name</label>
