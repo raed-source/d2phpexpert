@@ -13,7 +13,7 @@
 
 <body>
     <h1>Merci de votre reservation</h1>
-    <p>Routeur au page <a href="index.php">d'accueil</a> </p>
+    <p>Routeur au page <a href="../index.php">d'accueil</a> </p>
 </body>
 
 </html>

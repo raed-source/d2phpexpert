@@ -1,4 +1,5 @@
 <?php
+// require('./classes/hotel.php');
 class Booking
 {
     private $_booking_id;
