@@ -7,7 +7,7 @@ require('../classes/client.php');
 
 if (isset($_GET['id']))
     $id = $_GET['id'];
-echo $id;
+echo '<h2> Bienvenue à ' . $id . '</h2>';
 // -------$id SERT LE NOM DE L'HOTEL OU ON RESERVE LA CHAMBRE
 // -------AFFICHER LES CHAMBRE DISPONIBLE DANS CET HOTEL
 $dbh = new PDO('mysql:host=localhost;dbname=booking_db', 'root', '');
@@ -36,34 +36,52 @@ if (isset($_POST['submitBooking'])) {
     // -------------------CREATION D'OBJET BOOKING-------------------
     $booking = new Booking($booking_data);
     $client = new Client($booking_data);
-    $sql = 'SELECT count(*) FROM booking  where  hotel_name="' . $id . '"';
-    $bookingManager->addBooking($booking);
-    var_dump($booking_data);
-    var_dump($booking);
+    // ---VERFIER LA DATE ET DISPONIBLILTE ---------
+    $sql = 'SELECT * FROM booking where (checkin <= "' . $booking->getCheckin() . '" AND checkout>="' . $booking->getCheckout() . '") 
+    or( checkin BETWEEN "' . $booking->getCheckin() . '" AND "' . $booking->getCheckout() . '") 
+    or (checkout BETWEEN "' . $booking->getCheckin() . '" AND "' . $booking->getCheckout() . '")
+    and hotel_name="' . $id . '"';
+
     $stmt = $dbh->prepare($sql);
     $stmt->execute();
-    $res[] = array();
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $res[] = $row;
     }
-    foreach ($res as $list) {
-        $checkin_db= array_search($checkin,$list);
-        // echo $checkin.'<br>';
-        // echo $checkin_db;
+    echo '<h1>'.count($res).'</h1>';
+    // -------LES CHAMBRES SONT EPUISEES---
+    if (count($res) >= 50) {
+        echo 'nombre de chambre depabssé';
+        header("Location: error.php");
+        exit;
+    } else {
+        $bookingManager->addBooking($booking);
+        $bookingManager->addClient($booking);
     }
-        // if (
-        //     $list['hotel_name'] == $booking->getHotelName()
-        //     and $list['room_number'] == $booking->getRoomNumber()
-        //     and $list['checkout'] >= $booking->getCheckin()
-        // ) {
-        //     // header("Location: error.php");
-        //     var_dump($list);
-        //     exit;
-        // } else {
-        //     $bookingManager->addBooking($booking);
-        //     $bookingManager->addClient($booking);
+        // foreach ($res as $list) {
+            // var_dump($list);
+            // $checkin_db = $list['checkin'];
+            // $checkout_db = $list['checkout'];
+            // echo $list['room_number'];
+            // $rooms[]=$list['room_number'];
+            // if (
+            //     isset($checkin_db)
+            // ) {
+            // header("Location: error.php");
+            // var_dump($list);
+            //     exit;
+            // } else {
+            //     $bookingManager->addBooking($booking);
+            //     $bookingManager->addClient($booking);
+            // }
         // }
     // }
+    // foreach (range(0, 50) as $number) {
+    //     $nums[]= $number;
+    // }
+    // var_dump($nums);
+    // var_dump($rooms);
+    // $result = array_diff($nums, $rooms);
+    // var_dump($result);
     $dbh = null;
     // header("Location: merci.php");
     exit;

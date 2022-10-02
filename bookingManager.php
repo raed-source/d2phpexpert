@@ -33,7 +33,7 @@ class BookingManager
         $stmt->bindParam('checkin', $checkin);
         $stmt->bindParam('checkout', $checkout);
         $stmt->execute();
-        var_dump($stmt->debugDumpParams());
+        // var_dump($stmt->debugDumpParams());
         $stmt = null;
     }
     //--------------------RECUPERER------------------------
@@ -92,7 +92,7 @@ class BookingManager
         $stmt->bindParam('client_name', $client_name);
         $stmt->bindParam('client_mail', $client_mail);
         $stmt->execute();
-        var_dump($stmt->debugDumpParams());
+        // var_dump($stmt->debugDumpParams());
         $stmt = null;
     }
 }
