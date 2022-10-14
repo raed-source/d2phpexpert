@@ -1,6 +1,4 @@
 <?php
-// require('hotel.php');
-
 
 class Hotel
 {

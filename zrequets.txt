@@ -1,0 +1,34 @@
+SELECT * FROM booking  where  hotel_name='hotel1' AND checkin BETWEEN '2022-10-02' AND '2022-10-08'
+
+SELECT count(*) FROM booking  where  hotel_name='hotel1' AND checkin BETWEEN '2022-10-02' AND '2022-10-08'
+SELECT count(*) FROM booking  where  hotel_name='hotel1' AND checkin < '2022-10-02' AND checkout >'2022-10-08'
+
+SELECT count(*) FROM booking  where  hotel_name='hotel1' AND checkin < '2022-10-02' AND checkout>'2022-10-08' or 
+	checkin BETWEEN '2022-10-02' AND '2022-10-08' or checkout BETWEEN '2022-10-02' AND '2022-10-08'
+
+SELECT * FROM booking where hotel_name='hotel1' AND (checkin < '2022-10-02' AND checkout>'2022-10-08') 
+or( checkin BETWEEN '2022-10-02' AND '2022-10-08') or (checkout BETWEEN '2022-10-02' AND '2022-10-08')
+
+
+
+
+
+
+$sql = 'SELECT * FROM booking where (checkin <= "' . $booking->getCheckin() . '" AND checkout>="' . $booking->getCheckout() . '") 
+    or( checkin BETWEEN "' . $booking->getCheckin() . '" AND "' . $booking->getCheckout() . '") 
+    or (checkout BETWEEN "' . $booking->getCheckin() . '" AND "' . $booking->getCheckout() . '")
+    and hotel_name="' . $id . '"';
+
+
+
+SELECT * FROM booking WHERE checkin>= "2022-10-01" AND checkout<="2022-10-10" AND hotel_name="hotel1"
+
+SELECT room_number FROM booking WHERE room_number NOT IN (
+        SELECT room_number FROM booking WHERE checkin>= "' . $booking->getCheckin() . '" AND checkout<="' . $booking->getCheckout() . '" AND hotel_name="' . $booking->getHotelName() . '"
+
+
+
+		SELECT room_number FROM booking WHERE room_number NOT IN( SELECT room_number FROM booking WHERE checkin>= "2022-10-01" AND checkout<="2022-10-10" AND hotel_name="hotel1") AND room_number >1 AND room_number <9
+
+
+$result = array_diff($array1, $array2);

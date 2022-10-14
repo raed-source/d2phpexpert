@@ -1,5 +1,5 @@
 <?php
-echo 'Resevation de cette chambre n\'est pas possible à cette date!!';
+echo 'Resevation de cette chambre n\'est pas possible à cette date!!<br><p>Choisissez une autre Hotel</p>';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +12,7 @@ echo 'Resevation de cette chambre n\'est pas possible à cette date!!';
 </head>
 
 <body>
-    <p><a href="../index.php">retour</a> à la page reservation</p>
+    <p><a href="../index.php">retour</a> à la page d'Accueil</p>
 </body>
 
 </html>
