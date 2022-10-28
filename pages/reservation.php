@@ -84,6 +84,10 @@ if (isset($_POST['submitBooking'])) {
     }
 }
 
+function verify()
+{
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -120,13 +124,14 @@ if (isset($_POST['submitBooking'])) {
         <input type="submit" name="submitBooking" value="confirm">
     </form>
     <div class="affich">
-        <form action="bookingManager.php" method="post">
+        <form action="./consulte.php" method="post">
             <p>Consultez votre reservation</p>
             <p>
                 <label for="consulter">saisissez votre mail</label>
                 <input type="email" name="email">
-                <input type="submit" name="consulte" value="consultez">
+                <input type="submit" name="consulte" value="consulter">
             </p>
+
         </form>
 </body>
 

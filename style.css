@@ -43,3 +43,13 @@ a {
 li {
     display: block;
 }
+input {
+    width: 150px;
+    margin: 0;
+}
+.consulte {
+    display: flex;
+}
+.list {
+    float: left;
+}
