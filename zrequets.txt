@@ -32,3 +32,28 @@ SELECT room_number FROM booking WHERE room_number NOT IN (
 
 
 $result = array_diff($array1, $array2);
+
+
+  function verify(Booking $booking)
+    {
+        // $id = $booking->getBooking_id();
+        $hotel_name = htmlspecialchars($booking->getHotelName());
+        $checkin = htmlspecialchars($booking->getCheckin());
+        $checkout = htmlspecialchars($booking->getCheckout());
+        $sql = 'SELECT * FROM booking WHERE 
+        checkin >= :checkin AND 
+        checkout <= :checkout AND        
+        hotel_name = :hotel_name';
+        $stmt = $this->_db->prepare($sql);
+
+        $stmt->bindParam(':hotel_name', $hotel_name);
+        $stmt->bindParam(':checkin', $checkin);
+        $stmt->bindParam(':checkout', $checkout);
+        $stmt->execute();
+        var_dump($stmt->debugDumpParams());
+        // -----------------------DEBUGUE DE LA REQUETE-----------
+        // var_dump($stmt->debugDumpParams());
+        $count = $stmt->rowCount();
+
+        return $count;
+    }

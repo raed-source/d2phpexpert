@@ -1,17 +1,22 @@
 <?php
-if (isset($_POST['modify']));
-echo 'ok';
-if (
-    !empty($_POST['client_name'])
-    and !empty($_POST['client_mail'])
-    and !empty($_POST['checkin'])
-    and !empty($_POST['checkout'])
-) {
-    $client_name = $_POST['client_name'];
-    $client_mail = $_POST['client_mail'];
-    $checkin = $_POST['checkin'];
-    $checkout = $_POST['checkout'];
+require('../bookingManager.php');
+
+$id = $_REQUEST['id'];
+echo $id;
+
+
+if (isset($_POST['supprimer'])) {
+    $dbh = new PDO('mysql:host=localhost;dbname=booking_db', 'root', '');
+    $bookingManager = new BookingManager($dbh);
+    $sql = 'DELETE FROM booking WHERE booking_id="' . $id . '"';
+    $stmt = $dbh->prepare($sql);
+    if ($stmt->execute()) {
+        echo 'supprission éffectué';
+    } else {
+        echo 'probleme de connexion!';
+    }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
