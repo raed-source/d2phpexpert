@@ -24,10 +24,8 @@ if (isset($_POST['submitBooking'])) {
         and !empty($_POST['checkin'])
         and !empty($_POST['checkout'])
     ) {
-        // $hotel_name = $_POST['hotel'];
         $hotel_name = $id;
         echo $hotel_name;
-        // $room_number = 9;
         $client_name = $_POST['client_name'];
         $client_mail = $_POST['client_mail'];
         $checkin = $_POST['checkin'];

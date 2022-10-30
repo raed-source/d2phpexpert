@@ -1,6 +1,6 @@
 <?php
 require('../bookingManager.php');
-
+require('../classes/booking.php');
 $id = $_REQUEST['id'];
 echo $id;
 
@@ -8,9 +8,14 @@ echo $id;
 if (isset($_POST['supprimer'])) {
     $dbh = new PDO('mysql:host=localhost;dbname=booking_db', 'root', '');
     $bookingManager = new BookingManager($dbh);
-    $sql = 'DELETE FROM booking WHERE booking_id="' . $id . '"';
+    $sql = 'SELECT * FROM booking WHERE booking_id="' . $id . '"';
     $stmt = $dbh->prepare($sql);
-    if ($stmt->execute()) {
+    $stmt->execute();
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $res[] = $row;
+    }
+    $booking = new Booking($res[0]);
+    if ($bookingManager->deleteBooking($booking->getBooking_id())) {
         echo 'supprission éffectué';
     } else {
         echo 'probleme de connexion!';
